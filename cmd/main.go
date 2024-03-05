@@ -20,9 +20,17 @@ func main() {
 
 	gin := gin.Default()
 
+	// TODO for testing set trusted proxies to [127.0.0.1]
+	gin.ForwardedByClientIP = true
+	err := gin.SetTrustedProxies([]string{"127.0.0.1"})
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	route.Setup(env, timeout, db, gin)
 
-	err := gin.Run(env.ServerAddress)
+	err = gin.Run(env.ServerAddress)
 
 	if err != nil {
 		fmt.Println(err)
