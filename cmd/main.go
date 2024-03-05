@@ -24,11 +24,10 @@ func main() {
 	gin.ForwardedByClientIP = true
 	err := gin.SetTrustedProxies([]string{"127.0.0.1"})
 
-	if err != nil {
-		fmt.Println(err)
-	}
+	// Setup swagger doc
 
 	route.Setup(env, timeout, db, gin)
+	route.SetupSwagger(env, timeout, gin)
 
 	err = gin.Run(env.ServerAddress)
 

@@ -16,6 +16,10 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 }
 
 func healthCheckRouter(group *gin.RouterGroup) {
+	// @Summary check the api health for our app
+	// @Description Get the help of the endpoints
+	// @Success 200 {string} string  "ok"
+	// @Router /healthcheck/
 	group.GET("/healthcheck", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "All systems work fine.",
