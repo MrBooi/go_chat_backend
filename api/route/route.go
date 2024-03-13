@@ -12,6 +12,7 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	publicRouter := gin.Group("")
 	// All Public APIs
 	healthCheckRouter(publicRouter)
+	NewRegisterRouter(env, timeout, db, publicRouter)
 
 }
 
@@ -25,4 +26,5 @@ func healthCheckRouter(group *gin.RouterGroup) {
 			"message": "All systems work fine.",
 		})
 	})
+
 }
