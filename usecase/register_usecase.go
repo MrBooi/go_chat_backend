@@ -18,10 +18,10 @@ func (r *registerUsecase) Create(c context.Context, user *domain.User) error {
 	return r.userRepository.Create(ctx, user)
 }
 
-func (r *registerUsecase) GetByID(c context.Context, email string) (domain.User, error) {
+func (r *registerUsecase) GetUserByUuidOrEmail(c context.Context, uuid string, email string) (domain.User, error) {
 	ctx, cancel := context.WithTimeout(c, r.contextTimeout)
 	defer cancel()
-	return r.userRepository.GetByID(ctx, email)
+	return r.userRepository.GetUserByUuidOrEmail(ctx, uuid, email)
 }
 
 func NewRegisterUsecase(userRepository domain.UserRepository, timeout time.Duration) domain.RegisterUsecase {

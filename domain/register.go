@@ -11,5 +11,5 @@ type RegisterRequest struct {
 
 type RegisterUsecase interface {
 	Create(c context.Context, user *User) error
-	GetByID(c context.Context, email string) (User, error)
+	GetUserByUuidOrEmail(c context.Context, uuid string, email string) (User, error)
 }
