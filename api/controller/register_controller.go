@@ -14,7 +14,7 @@ type RegisterController struct {
 	Env             *bootstrap.Env
 }
 
-func (rc *RegisterController) register(c *gin.Context) {
+func (rc *RegisterController) Register(c *gin.Context) {
 	var request domain.RegisterRequest
 
 	err := c.ShouldBind(&request)
