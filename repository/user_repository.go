@@ -6,7 +6,6 @@ import (
 	"github.com/MrBooi/go_chat_backend/domain"
 	"github.com/MrBooi/go_chat_backend/mongo"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type userRepository struct {
@@ -31,17 +30,22 @@ func (u *userRepository) Create(c context.Context, user *domain.User) error {
 	return err
 }
 
-func (u *userRepository) GetByID(c context.Context, id string) (domain.User, error) {
+func (u *userRepository) GetUserByUuidOrEmail(c context.Context, uuid string, email string) (domain.User, error) {
 	collection := u.database.Collection(u.collection)
 
 	var user domain.User
 
-	idHex, err := primitive.ObjectIDFromHex(id)
+	pipeline := bson.M{
+		"uuid": uuid,
+		"$or": []interface{}{
+			bson.M{"email": email},
+		},
+	}
+
+	err := collection.FindOne(c, pipeline).Decode(&user)
 	if err != nil {
 		return user, err
 	}
-
-	err = collection.FindOne(c, bson.M{"_id": idHex}).Decode(&user)
 	return user, err
 }
 
