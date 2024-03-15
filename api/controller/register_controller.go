@@ -30,9 +30,9 @@ func (rc *RegisterController) Register(c *gin.Context) {
 		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "User already exists with the given Uuid or Email"})
 		return
 	}
-
 	user := domain.User{
 		ID:       primitive.NewObjectID(),
+		Uuid:     request.Uuid,
 		Name:     request.Name,
 		Email:    request.Email,
 		PhotoUrl: request.PhotoUrl,
