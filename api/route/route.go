@@ -3,6 +3,7 @@ package route
 import (
 	"time"
 
+	"github.com/MrBooi/go_chat_backend/api/middleware"
 	"github.com/MrBooi/go_chat_backend/bootstrap"
 	"github.com/MrBooi/go_chat_backend/mongo"
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,10 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	NewRegisterRouter(env, timeout, db, publicRouter)
 	NewLoginRouter(env, timeout, db, publicRouter)
 	NewRefreshTokenRouter(env, timeout, db, publicRouter)
+
+	protectedRouter := gin.Group("")
+	// middleware to verify if user has a valid accessToken
+	protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
 
 }
 
