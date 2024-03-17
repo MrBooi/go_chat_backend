@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/MrBooi/go_chat_backend/domain"
+	"github.com/MrBooi/go_chat_backend/internal/tokenutil"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,9 +15,15 @@ func JwtAuthMiddleware(secret string) gin.HandlerFunc {
 		t := strings.Split(authHeader, " ")
 		if len(t) == 2 {
 			authToken := t[1]
-			authorized, err := tokenUtil.ISAuthorized(authToken, secret)
-			if authToken {
-				userID, err := tokenUtil.ExtractFromToken(authToken, secret)
+			authorized, err := tokenutil.IsAuthorized(authToken, secret)
+
+			if err != nil {
+				c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: err.Error()})
+				c.Abort()
+			}
+
+			if authorized {
+				userID, err := tokenutil.ExtractIDFromToken(authToken, secret)
 				if err != nil {
 					c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: err.Error()})
 					c.Abort()
