@@ -13,6 +13,13 @@ type loginUsecase struct {
 	contextTimeout time.Duration
 }
 
+func (lu *loginUsecase) GetByID(c context.Context, id string) (domain.User, error) {
+	ctx, cancel := context.WithTimeout(c, lu.contextTimeout)
+	defer cancel()
+
+	return lu.GetByID(ctx, id)
+}
+
 func (lu *loginUsecase) CreateAccessToken(user *domain.User, secret string, expiry int) (accessToken string, err error) {
 	return tokenutil.CreateAccessToken(user, secret, expiry)
 }
