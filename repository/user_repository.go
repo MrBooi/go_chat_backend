@@ -13,7 +13,7 @@ type userRepository struct {
 	collection string
 }
 
-func (u *userRepository) GetUser(c context.Context, uuid string) (domain.User, error) {
+func (u *userRepository) GetUserByUuid(c context.Context, uuid string) (domain.User, error) {
 	collection := u.database.Collection(u.collection)
 
 	var user domain.User
