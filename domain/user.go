@@ -11,11 +11,13 @@ const (
 )
 
 type User struct {
-	ID       primitive.ObjectID `bson:"_id" json:"id" `
-	Uuid     string             `bson:"uuid" json:"uuid" `
-	Name     string             `bson:"name" json:"name" `
-	Email    string             `bson:"email" json:"email" `
-	PhotoUrl string             `bson:"photo_url" json:"photo_url" `
+	ID              primitive.ObjectID `bson:"_id" json:"id" `
+	Uuid            string             `bson:"uuid" json:"uuid" `
+	Name            string             `bson:"name" json:"name" `
+	Email           string             `bson:"email" json:"email" `
+	PhotoUrl        string             `bson:"photo_url" json:"photo_url"`
+	IsActive        bool               `bson:"is_active" json:"is_active" default:"true"`
+	IsTermsAccepted bool               `bson:"is_terms_accepted" json:"is_terms_accepted"`
 }
 
 type UserRepository interface {

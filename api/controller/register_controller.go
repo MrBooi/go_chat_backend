@@ -32,11 +32,13 @@ func (rc *RegisterController) Register(c *gin.Context) {
 	}
 
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
-		Uuid:     request.Uuid,
-		Name:     request.Name,
-		Email:    request.Email,
-		PhotoUrl: request.PhotoUrl,
+		ID:              primitive.NewObjectID(),
+		Uuid:            request.Uuid,
+		Name:            request.Name,
+		Email:           request.Email,
+		PhotoUrl:        request.PhotoUrl,
+		IsTermsAccepted: false,
+		IsActive:        true,
 	}
 
 	err = rc.RegisterUsecase.Create(c, &user)
