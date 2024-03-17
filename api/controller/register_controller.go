@@ -24,17 +24,11 @@ func (rc *RegisterController) Register(c *gin.Context) {
 		return
 	}
 
-	found, err := rc.RegisterUsecase.GetUserByUuidOrEmail(c, request.Uuid, request.Email)
+	_, err = rc.RegisterUsecase.GetUserByUuidOrEmail(c, request.Uuid, request.Email)
 
-	if found.Uuid != "" && found.Email != "" {
-		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "User already exists with the given Uuid or Email"})
+	if err == nil {
+		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "User already exists with the given email"})
 		return
-	}
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Failed while checking if user exits."})
-		return
-
 	}
 
 	user := domain.User{
