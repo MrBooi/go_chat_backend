@@ -8,7 +8,7 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
-func createAccessToken(user *domain.User, secret string, expiry int) (accessToken string, err error) {
+func CreateAccessToken(user *domain.User, secret string, expiry int) (accessToken string, err error) {
 	exp := time.Now().Add(time.Hour * time.Duration(expiry))
 	claims := &domain.JwtCustomClaims{
 		Email: user.Email,
