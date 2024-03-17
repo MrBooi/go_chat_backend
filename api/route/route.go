@@ -13,6 +13,7 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	// All Public APIs
 	healthCheckRouter(publicRouter)
 	NewRegisterRouter(env, timeout, db, publicRouter)
+	NewLoginRouter(env, timeout, db, publicRouter)
 
 }
 
