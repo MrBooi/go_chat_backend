@@ -20,6 +20,8 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gi
 	protectedRouter := gin.Group("")
 	// middleware to verify if user has a valid accessToken
 	protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
+	// private routes
+	NewUserRouter(env, timeout, db, protectedRouter)
 
 }
 

@@ -7,11 +7,33 @@ import (
 	"github.com/MrBooi/go_chat_backend/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type userRepository struct {
 	database   mongo.Database
 	collection string
+}
+
+func (u *userRepository) UpdateUser(c context.Context, id string, body domain.UpdateUserRequest) (domain.User, error) {
+	collection := u.database.Collection(u.collection)
+
+	var user domain.User
+	idHex, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return user, err
+	}
+	filter := bson.M{"_id": idHex}
+
+	update := bson.D{{Key: "$set", Value: body}}
+
+	_, err = collection.UpdateOne(c, filter, update, options.Update().SetUpsert(true))
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
 
 func (u *userRepository) GetByID(c context.Context, id string) (domain.User, error) {
