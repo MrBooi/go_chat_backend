@@ -32,6 +32,10 @@ func (u *userRepository) UpdateUser(c context.Context, id string, body domain.Up
 	if err != nil {
 		return user, err
 	}
+	err = collection.FindOne(c, bson.M{"_id": idHex}).Decode(&user)
+	if err != nil {
+		return user, err
+	}
 
 	return user, nil
 }
