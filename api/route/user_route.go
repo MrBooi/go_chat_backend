@@ -18,6 +18,8 @@ func NewUserRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database,
 		UserUsecase: usecase.NewUserUsecase(ur, timeout),
 		Env:         env,
 	}
+	// profile
+	group.GET("user/profile", uc.Profile)
+	group.PUT("user/update", uc.UpdateUser)
 
-	group.PUT("/update", uc.UpdateUser)
 }
