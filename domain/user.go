@@ -37,4 +37,5 @@ type UserRepository interface {
 
 type UserUsecase interface {
 	UpdateUser(c context.Context, id string, body UpdateUserRequest) (User, error)
+	GetProfile(c context.Context, id string) (User, error)
 }

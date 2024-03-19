@@ -12,6 +12,12 @@ type userUsecase struct {
 	contextTimeout time.Duration
 }
 
+func (uu *userUsecase) GetProfile(c context.Context, id string) (domain.User, error) {
+	ctx, cancel := context.WithTimeout(c, uu.contextTimeout)
+	defer cancel()
+	return uu.userRepository.GetByID(ctx, id)
+}
+
 func (uu *userUsecase) UpdateUser(c context.Context, id string, body domain.UpdateUserRequest) (domain.User, error) {
 	ctx, cancel := context.WithTimeout(c, uu.contextTimeout)
 	defer cancel()
